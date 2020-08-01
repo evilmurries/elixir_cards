@@ -1,16 +1,10 @@
 defmodule Cards do
   @moduledoc """
-  Documentation for `Cards`.
+  Provides functions for creating and handling a deck of cards
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Cards.hello()
-      :world
-
+  Returns a list of strings that represents a deck of playing cards
   """
   def create_deck do
     values = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"]
@@ -21,12 +15,60 @@ defmodule Cards do
     end
   end
 
+  @doc """
+  Divides a deck into a hand and the remainder of the deck. The 
+  `count` argument indicates how many cards should be in the hand
+
+  ## Examples
+      iex> deck = Cards.create_deck
+      iex> {hand, deck} = Cards.deal(deck, 1)
+      iex> hand
+      ["Ace of Spaces"]
+
+  """
+  def deal(deck, count) do
+    Enum.split(deck, count)
+  end
+
+  @doc """
+  Shuffles a deck of cards
+  """
   def shuffle(deck) do
     Enum.shuffle(deck)
   end
 
+  @doc """
+  Determines if `card` exists inside of `deck`
+  """
   def contains?(deck, card) do
     Enum.member?(deck, card)
   end
 
+  @doc """
+  Creates a hand of cards using `hand_size` to determine the size of the
+  hand
+  """
+  def create_hand(hand_size) do
+    Cards.create_deck
+    |> Cards.shuffle
+    |> Cards.deal(hand_size)
+  end
+
+  @doc """
+  Writes the deck to the `filename` on the file system
+  """
+  def save(deck, filename) do
+    binary = :erlang.term_to_binary(deck)
+    File.write(filename, binary)
+  end
+
+  @doc """
+  Reads `filename`to retrieve Cards from the filesystem
+  """
+  def load(filename) do
+    case File.read(filename) do
+      {:ok, binary} -> :erlang.binary_to_term(binary)
+      {:error, _reason} -> "That file does not exist"
+    end
+  end
 end

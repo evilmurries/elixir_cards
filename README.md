@@ -1,6 +1,6 @@
 # Cards
 
-**TODO: Add description**
+A series of functions to learn a functional programming
 
 ## Installation
 
