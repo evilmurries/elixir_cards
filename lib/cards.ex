@@ -23,7 +23,7 @@ defmodule Cards do
       iex> deck = Cards.create_deck
       iex> {hand, deck} = Cards.deal(deck, 1)
       iex> hand
-      ["Ace of Spaces"]
+      ["Ace of Spades"]
 
   """
   def deal(deck, count) do
@@ -39,6 +39,12 @@ defmodule Cards do
 
   @doc """
   Determines if `card` exists inside of `deck`
+
+  ## Examples
+      iex> deck = Cards.create_deck
+      iex> Cards.contains?(deck, "Ace of Spades")
+      true
+ 
   """
   def contains?(deck, card) do
     Enum.member?(deck, card)
